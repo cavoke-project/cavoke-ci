@@ -1,0 +1,50 @@
+name: Build and push CI docker images
+on:
+  push:
+    branches:
+      - "master"
+jobs:
+  build-push-codeql:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      -
+        name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          file: codeql.Dockerfile
+          push: true
+          tags: ghcr.io/cavoke-project/cavoke-ci:codeql
+  build-push-client-qt5-suse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      -
+        name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          file: client-qt5-suse.Dockerfile
+          push: true
+          tags: ghcr.io/cavoke-project/cavoke-ci:client-qt5-suse
+  build-push-client-qt6-suse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      -
+        name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          file: client-qt6-suse.Dockerfile
+          push: true
+          tags: ghcr.io/cavoke-project/cavoke-ci:client-qt6-suse
+  build-push-server:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      -
+        name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          file: server.Dockerfile
+          push: true
+          tags: ghcr.io/cavoke-project/cavoke-ci:server
