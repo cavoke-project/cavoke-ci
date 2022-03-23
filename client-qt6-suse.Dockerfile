@@ -9,6 +9,7 @@ RUN pushd $HOME && \
     cmake .. -DCMAKE_BUILD_TYPE=debug -DCMAKE_INSTALL_PREFIX=/usr/local -DQT_MAJOR_VERSION=6 && \
     make && \
     make install && \
+    rm -rf $HOME/karchive \
     popd
 
 CMD ["/bin/bash"]

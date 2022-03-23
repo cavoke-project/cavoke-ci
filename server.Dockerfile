@@ -28,12 +28,16 @@ ADD https://api.github.com/repos/an-tao/drogon/git/refs/heads/master $IROOT/vers
 RUN git clone https://github.com/an-tao/drogon $DROGON_ROOT
 WORKDIR $DROGON_ROOT
 RUN ./build.sh
+WORKDIR $IROOT
+RUN rm -rf $DROGON_ROOT
 
 # Nlohmann (TODO: use a package)
 ENV NLOHMANN_ROOT="$IROOT/json/"
 RUN git clone https://github.com/nlohmann/json $NLOHMANN_ROOT
 WORKDIR $NLOHMANN_ROOT
 RUN cmake . -DJSON_BuildTests=OFF && make install
+WORKDIR $IROOT
+RUN rm -rf $NLOHMANN_ROOT
 
 # Cavoke
 RUN pip3 install requests
