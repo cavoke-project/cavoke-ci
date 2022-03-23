@@ -1,10 +1,5 @@
 FROM ubuntu:20.04
 
-# Build arguments. Use `--build-arg` in docker run
-ARG SERVER_PORT=8080
-
-EXPOSE $SERVER_PORT
-
 ENV DEBIAN_FRONTEND noninteractive
 ENV TZ=UTC
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
