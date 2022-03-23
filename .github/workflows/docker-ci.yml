@@ -1,50 +1,31 @@
-name: Build and push CI docker images
+name: ci-docker
 on:
   push:
     branches:
       - "master"
 jobs:
-  build-push-codeql:
+  build-push:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       -
-        name: Build and push
-        uses: docker/build-push-action@v2
+        name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
         with:
-          file: codeql.Dockerfile
-          push: true
-          tags: ghcr.io/cavoke-project/cavoke-ci:codeql
-  build-push-client-qt5-suse:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       -
         name: Build and push
         uses: docker/build-push-action@v2
         with:
-          file: client-qt5-suse.Dockerfile
+          file: ./{{matrix.name}}.Dockerfile
           push: true
-          tags: ghcr.io/cavoke-project/cavoke-ci:client-qt5-suse
-  build-push-client-qt6-suse:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      -
-        name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          file: client-qt6-suse.Dockerfile
-          push: true
-          tags: ghcr.io/cavoke-project/cavoke-ci:client-qt6-suse
-  build-push-server:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      -
-        name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          file: server.Dockerfile
-          push: true
-          tags: ghcr.io/cavoke-project/cavoke-ci:server
+          tags: ghcr.io/cavoke-project/cavoke-ci:{{matrix.name}} 
+    strategy:
+        matrix:
+          name:
+           - codeql
+           - client-qt5-suse
+           - client-qt6-suse
+           - server
