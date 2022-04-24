@@ -32,12 +32,19 @@ WORKDIR $DROGON_ROOT
 RUN ./build.sh
 RUN rm -rf $DROGON_ROOT
 
-# Nlohmann (TODO: use a package)
+# Nlohmann (TODO: use a package but with >=3.9.0)
 ENV NLOHMANN_ROOT="$IROOT/json/"
 RUN git clone https://github.com/nlohmann/json $NLOHMANN_ROOT
 WORKDIR $NLOHMANN_ROOT
 RUN cmake . -DJSON_BuildTests=OFF && make install
 RUN rm -rf $NLOHMANN_ROOT
+
+# JWT-CPP (TODO: use a package)
+ENV JWT_ROOT="$IROOT/jwt-cpp/"
+RUN git clone https://github.com/Thalhammer/jwt-cpp $JWT_ROOT
+WORKDIR $JWT_ROOT
+RUN cmake . -DJWT_BUILD_EXAMPLES=OFF && make install
+RUN rm -rf $JWT_ROOT
 
 # Cavoke
 RUN pip3 install requests
