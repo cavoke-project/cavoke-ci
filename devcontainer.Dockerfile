@@ -4,7 +4,7 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV TZ=UTC
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN apt-get update -yqq
+RUN apt-get update -yqq && apt-get install -yqq sudo 
 
 # Cavoke Server
 # -------------
@@ -14,6 +14,7 @@ RUN apt-get install -yqq --no-install-recommends software-properties-common \
     openssl libssl-dev libjsoncpp-dev uuid-dev zlib1g-dev libc-ares-dev\
     postgresql-server-dev-all \ 
     libboost-all-dev python3-pip \
+    docker.io docker-compose \
     && locale-gen en_US.UTF-8
 
 #  libmariadbclient-dev libsqlite3-dev libhiredis-dev
