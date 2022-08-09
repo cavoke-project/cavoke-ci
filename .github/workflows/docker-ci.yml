@@ -4,7 +4,7 @@ on:
     branches:
       - "master"
 jobs:
-  build-push:
+  build-push-ci:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -29,3 +29,21 @@ jobs:
            - client-qt5-suse
            - client-qt6-suse
            - server
+  build-push-dev:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      -
+        name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      -
+        name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          file: ./devcontainer.Dockerfile
+          push: true
+          tags: ghcr.io/cavoke-project/dev
